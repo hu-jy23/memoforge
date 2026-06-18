@@ -1,5 +1,7 @@
 # MemoForge / 忆构
 
+Public GitHub repository: <https://github.com/hu-jy23/memoforge>
+
 **A memory-centered agent harness for long-horizon software development.**
 
 MemoForge is a public release of our course project harness. It packages a multi-agent software-development workflow with self-alignment, deterministic context injection, project memory, evidence-backed task artifacts, and optional long-horizon goal control.
