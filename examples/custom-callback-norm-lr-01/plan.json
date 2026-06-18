@@ -1,0 +1,52 @@
+{
+  "task_id": "custom-callback-norm-lr-01",
+  "goal": "Implement and validate a MindFormers NormLRLogger callback artifact.",
+  "subtasks": [
+    {
+      "id": "contract",
+      "description": "Define task contract and validation criteria.",
+      "context_refs": [
+        "workspace/task_contract.md",
+        "docs/task_artifact_protocol.md"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "implement-callback",
+      "description": "Create NormLRLogger callback and YAML usage fragment.",
+      "context_refs": [
+        "agents/memory/store/wiki/api/mindformer-register.md",
+        "agents/memory/store/wiki/api/mf-train-wrappers.md",
+        "agents/memory/store/wiki/api/training_callbacks.md"
+      ],
+      "depends_on": [
+        "contract"
+      ]
+    },
+    {
+      "id": "verify-artifact",
+      "description": "Validate syntax and inspect domain-specific callback behavior.",
+      "context_refs": [
+        "workspace/patch/custom-callback-norm-lr-01/",
+        "workspace/coder_summary.md",
+        "workspace/task_contract.md"
+      ],
+      "depends_on": [
+        "implement-callback"
+      ]
+    },
+    {
+      "id": "writeback",
+      "description": "Write evidence-backed learning record and promotion decision.",
+      "context_refs": [
+        "workspace/candidates.jsonl",
+        "workspace/evidence/custom-callback-norm-lr-01/",
+        "workspace/verify_result.json",
+        "workspace/promotion_decision.md"
+      ],
+      "depends_on": [
+        "verify-artifact"
+      ]
+    }
+  ]
+}

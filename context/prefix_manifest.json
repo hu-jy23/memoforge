@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "description": "Deterministic immutable-prefix inputs for MemoForge main-agent profiles.",
+  "shared": [
+    {
+      "path": "PROJECT_STATUS.md",
+      "purpose": "Current architecture commitments and project-memory routing."
+    },
+    {
+      "path": "docs/alignment_starter_protocol.md",
+      "purpose": "MultiAlignment starter protocol for long-horizon and underspecified work."
+    },
+    {
+      "path": "docs/goal_harness.md",
+      "purpose": "Slash-command goal controller and long-horizon goal-state contract."
+    },
+    {
+      "path": "docs/session_context_architecture.md",
+      "purpose": "Reasonix-inspired session context discipline."
+    },
+    {
+      "path": "docs/task_artifact_protocol.md",
+      "purpose": "Task-cycle artifact contract."
+    },
+    {
+      "path": "docs/runtime_extension_points.md",
+      "purpose": "Subagent, hook, and tool-call repair extension points."
+    },
+    {
+      "path": "runtime/extension_manifest.json",
+      "purpose": "Machine-checkable runtime extension registry."
+    }
+  ],
+  "profiles": {
+    "planner": [
+      {
+        "path": "CLAUDE.md",
+        "purpose": "Planner role contract."
+      }
+    ],
+    "coder": [
+      {
+        "path": "agents/coder/CLAUDE.md",
+        "purpose": "Coder role contract."
+      },
+      {
+        "path": "agents/memory/store/wiki/index.md",
+        "purpose": "Wiki route index for direct read access."
+      },
+      {
+        "path": "agents/memory/store/skills/README.md",
+        "purpose": "Skill format and promotion conventions."
+      }
+    ],
+    "verifier": [
+      {
+        "path": "agents/verifier/CLAUDE.md",
+        "purpose": "Verifier role contract."
+      },
+      {
+        "path": "agents/memory/store/wiki/index.md",
+        "purpose": "Wiki route index for direct read access."
+      },
+      {
+        "path": "agents/memory/store/learning/README.md",
+        "purpose": "Evidence-backed learning format."
+      }
+    ],
+    "memory": [
+      {
+        "path": "agents/memory/CLAUDE.md",
+        "purpose": "Memory Agent role and write-back contract."
+      },
+      {
+        "path": "agents/memory/store/wiki/CLAUDE.md",
+        "purpose": "Wiki schema and maintenance conventions."
+      },
+      {
+        "path": "agents/memory/store/notes/README.md",
+        "purpose": "Notes staging conventions."
+      },
+      {
+        "path": "agents/memory/store/learning/README.md",
+        "purpose": "Evidence-backed learning format."
+      },
+      {
+        "path": "agents/memory/store/skills/README.md",
+        "purpose": "Skill and skill-package conventions."
+      }
+    ]
+  }
+}

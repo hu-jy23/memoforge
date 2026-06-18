@@ -1,0 +1,25 @@
+# Artifact Protocol Validation
+
+Command:
+
+```bash
+python3 tools/validate_task_artifacts.py
+```
+
+Output:
+
+```text
+artifact_protocol_ok task_id=custom-callback-norm-lr-01 warnings=0
+```
+
+Command:
+
+```bash
+python3 tools/validate_task_artifacts.py --require-learning
+```
+
+Output:
+
+```text
+artifact_protocol_ok task_id=custom-callback-norm-lr-01 warnings=0
+```

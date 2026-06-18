@@ -1,0 +1,37 @@
+{
+  "task_id": "custom-callback-norm-lr-01",
+  "candidate_id": "custom-callback-norm-lr-01-candidate-01",
+  "status": "pass",
+  "log_summary": "Python syntax validation passed for workspace/patch/custom-callback-norm-lr-01/norm_lr_logger.py. Manual inspection confirmed the MindFormerRegister callback registration, MFTrainOneStepCell output indices, JSONL append behavior, step-zero guard, OSError guard, and YAML config fragment. The artifact protocol validator passed for both workspace artifacts and the evidence-backed learning record. Runtime execution on Ascend hardware was not performed in this sample cycle.",
+  "failure_reason": "",
+  "success_pattern": "Use MFTrainOneStepCell net_outputs[3] as the primary current-step learning-rate source, with optimizer.get_lr() as fallback, and use net_outputs[4] for global_norm when runner_wrapper.use_clip_grad is true. Guard logging so failures record null or warnings instead of interrupting training.",
+  "potential_skill": true,
+  "evidence_refs": [
+    "workspace/evidence/custom-callback-norm-lr-01/commands.log",
+    "workspace/evidence/custom-callback-norm-lr-01/manual-inspection.md",
+    "workspace/evidence/custom-callback-norm-lr-01/artifact_protocol.log"
+  ],
+  "findings": [
+    {
+      "severity": "info",
+      "item": "Registration mechanism",
+      "detail": "@MindFormerRegister.register(MindFormerModuleType.CALLBACK) usage is present and matches wiki guidance in api/mindformer-register."
+    },
+    {
+      "severity": "info",
+      "item": "Output index usage",
+      "detail": "LR extraction uses net_outputs[3] and global_norm extraction uses net_outputs[4], matching the MFTrainOneStepCell layout recorded in api/mf-train-wrappers."
+    },
+    {
+      "severity": "info",
+      "item": "Logging safety",
+      "detail": "The final artifact has step == 0 guard and OSError handling around append-mode JSONL writes."
+    },
+    {
+      "severity": "info",
+      "item": "Artifact protocol",
+      "detail": "tools/validate_task_artifacts.py passed with --require-learning, proving the sample artifact chain cites task contract, candidate ledger, evidence, verify result, promotion decision, and learning record."
+    }
+  ],
+  "suggested_fix": ""
+}

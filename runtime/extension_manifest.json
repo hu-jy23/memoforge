@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "status": "reserved-extension-points",
+  "principle": "Extensions plug into the four-main-agent harness and do not create new top-level roles.",
+  "extension_points": {
+    "lightweight_subagents": {
+      "planner": {
+        "status": "allowed",
+        "boundary": "route probing and focused research only; no direct project file edits or memory-store reads"
+      },
+      "coder": {
+        "status": "allowed",
+        "boundary": "parallel code exploration and local candidate analysis under Coder responsibility"
+      },
+      "verifier": {
+        "status": "allowed",
+        "boundary": "independent validation fan-out under Verifier responsibility"
+      },
+      "memory": {
+        "status": "allowed",
+        "boundary": "batch scanning, write-back preparation, and consolidation support under Memory Agent responsibility"
+      }
+    },
+    "tool_call_repair": {
+      "schema_flatten": {
+        "status": "reserved",
+        "trigger": "tool schemas are too nested or verbose for reliable model calls",
+        "owner_layer": "future tool adapter"
+      },
+      "tool_scavenge": {
+        "status": "reserved",
+        "trigger": "model emits a tool call in text but fails structured dispatch",
+        "owner_layer": "future tool adapter"
+      },
+      "truncation_repair": {
+        "status": "reserved",
+        "trigger": "tool call JSON is truncated or syntactically incomplete",
+        "owner_layer": "future tool adapter"
+      },
+      "storm_suppression": {
+        "status": "reserved",
+        "trigger": "agent repeats identical tool calls without progress",
+        "owner_layer": "future tool adapter"
+      }
+    },
+    "hooks": {
+      "UserPromptSubmit": {
+        "status": "reserved",
+        "purpose": "task classification, policy checks, alignment gate checks, and initial audit context"
+      },
+      "PreToolUse": {
+        "status": "reserved",
+        "purpose": "command gating, artifact path checks, and policy enforcement"
+      },
+      "PostToolUse": {
+        "status": "reserved",
+        "purpose": "evidence capture, log normalization, and repair trigger detection"
+      },
+      "Stop": {
+        "status": "reserved",
+        "purpose": "artifact completeness checks and write-back trigger checks"
+      }
+    },
+    "slash_commands": {
+      "goal": {
+        "status": "reserved",
+        "purpose": "Planner-owned long-horizon goal controller using Alignment Starter, goal contract, status, progress, and audit artifacts"
+      }
+    }
+  }
+}

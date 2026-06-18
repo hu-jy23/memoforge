@@ -1,0 +1,78 @@
+# training_config_example.yaml
+# -----------------------------------------------------------------------
+# Minimal MindFormers training config snippet demonstrating how to add
+# the NormLRLogger callback to an existing fine-tuning run.
+#
+# Key additions vs a bare config:
+#   1. runner_wrapper section — enables gradient clipping so that
+#      global_norm is non-null in the callback output.
+#   2. NormLRLogger entry in the callbacks section.
+#
+# This file is a *fragment*; merge it into your full model config
+# (e.g. run_qwen3_0.5b_finetune.yaml) rather than using it standalone.
+# -----------------------------------------------------------------------
+
+# ── Trainer ─────────────────────────────────────────────────────────────
+trainer:
+  type: CausalLanguageModelingTrainer
+  model_name: 'qwen3_0b5'
+
+# ── Runner Wrapper ───────────────────────────────────────────────────────
+# MFTrainOneStepCell wraps the model + optimizer for a single train step.
+# use_clip_grad: true  → global_norm is computed and emitted at
+#                         net_outputs[4]; NormLRLogger will record a real
+#                         float instead of null.
+# max_grad_norm: 1.0   → standard clip threshold for LLM fine-tuning.
+runner_wrapper:
+  type: MFTrainOneStepCell
+  use_clip_grad: true
+  max_grad_norm: 1.0
+
+# ── Callbacks ────────────────────────────────────────────────────────────
+# Callbacks run in declaration order after each training step.
+# Keep them lightweight — heavy callbacks can dominate step time.
+callbacks:
+  # Standard loss / throughput monitor.
+  - type: MFLossMonitor
+    per_print_times: 10                  # print every 10 steps
+    check_for_nan_in_loss_and_grad: true # catch divergence early
+
+  # Periodic checkpoint save.
+  - type: CheckpointMonitor
+    directory: ./output/checkpoint
+    save_checkpoint_steps: 500
+    keep_checkpoint_max: 3
+    checkpoint_format: safetensors       # HuggingFace-compatible
+
+  # NormLRLogger — writes learning_rate and global_norm to a JSONL file.
+  #
+  # Prerequisites:
+  #   • Import norm_lr_logger before trainer init so the class is
+  #     registered:
+  #       import sys
+  #       sys.path.insert(0, "/path/to/patch/custom-callback-norm-lr-01")
+  #       import norm_lr_logger          # triggers @MindFormerRegister
+  #   • runner_wrapper.use_clip_grad: true (see above) for non-null
+  #     global_norm values.
+  #
+  # Output format (one JSON line per log_interval steps):
+  #   {"step": 100, "learning_rate": 9.8e-05,
+  #    "global_norm": 0.432, "timestamp": "2026-05-17T08:00:00Z"}
+  - type: NormLRLogger
+    log_file: ./output/norm_lr.jsonl    # append-mode; survives resume
+    log_interval: 100                   # write once every 100 steps
+
+# ── Optimizer ───────────────────────────────────────────────────────────
+optimizer:
+  type: AdamW
+  learning_rate: 1.0e-4
+  weight_decay: 0.01
+
+# ── Learning-rate schedule (example) ────────────────────────────────────
+# The LR value logged by NormLRLogger comes from net_outputs[3], which
+# reflects the actual per-step LR after warm-up / cosine decay.
+lr_schedule:
+  type: CosineWithWarmUpLR
+  learning_rate: 1.0e-4
+  warmup_ratio: 0.03
+  total_steps: 10000
